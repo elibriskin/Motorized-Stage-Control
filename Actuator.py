@@ -2,7 +2,7 @@ import numpy as np
 import pyfirmata
 import time
 
-from pyfirmata import Arduino
+from pyfirmata import Arduino, SERVO
 
 
 class Actuator:
@@ -91,6 +91,18 @@ class Actuator:
             self.retract(distance)
         
         self.increment_reference(distance)
+
+    def move_to(self, distance):
+        '''
+        Moves the actuator to a specific position.
+        '''
+        if distance == 0:
+            self.reset()
+        else:
+            moving_distance = distance - self.reference
+            
+            self.move(moving_distance)
+            self.reference = distance
         
     def reset(self):
         '''
